@@ -41,13 +41,13 @@ The application will be available at http://localhost:5000.
 
 ## Design Decisions and Challenges
 ### Design Decisions
-- UI Library : I chose Material-UI for its flexibility and extensive component library, which allowed for rapid development of a clean and responsive user interface.
+- UI Library : I chose Material-UI for its flexibility and extensive component library, which allowed for rapid development of a clean and responsive user interface. 
 - State Management : Implemented Redux Toolkit to manage the global state efficiently, making it easier to handle complex state updates across various components.
 
 ### Challenges Faced
-- State Management Complexity  :  Initially, I faced challenges managing the state across multiple components due to the deep nesting of components. To resolve this, I refactored the state structure and utilized Redux Toolkit, which simplified the state management process and improved maintainability.
+<!-- - State Management Complexity  :  Initially, I faced challenges managing the state across multiple components due to the deep nesting of components. To resolve this, I refactored the state structure and utilized Redux Toolkit, which simplified the state management process and improved maintainability. -->
 
-- Performance Optimization : There were performance issues when rendering a large number of components. I implemented React's React.memo and useCallback hooks to optimize rendering and prevent unnecessary re-renders, leading to a smoother user experience.
+<!--  - Performance Optimization : There were performance issues when rendering a large number of components. I implemented React's React.memo and useCallback hooks to optimize rendering and prevent unnecessary re-renders, leading to a smoother user experience. -->
 
 - Responsive Design  :  Ensuring the dashboard was responsive across various devices was challenging. I used CSS Flexbox and Grid layout techniques in combination with Material-UI's responsive design features to achieve a mobile-friendly layout without sacrificing functionality.
 
