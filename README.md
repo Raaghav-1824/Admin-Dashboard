@@ -18,11 +18,11 @@ To set up this project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/react-admin.git
+   git clone https://github.com/Raaghav-1824/admin-dashboard.git
 
 2. Navigate to the project directory:
    ```bash
-   cd react-admin
+   cd admin-dashboard
 
 4. Install the required dependencies:
    ```bash
