@@ -1,6 +1,6 @@
 # React Admin Dashboard
 
-This project is a React-based admin dashboard built using modern JavaScript (ES6+), HTML5, and CSS3, utilizing Material-UI for UI components. The application is designed to be responsive and works correctly across major browsers (Chrome, Firefox, Safari, Edge).
+This project is a React-based admin dashboard built using modern JavaScript (ES6+), HTML5, and CSS3, utilizing Material-UI for UI components.
 
 ## Live Demo
 
