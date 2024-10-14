@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useContext } from "react";
 import {
   Box,
@@ -111,7 +112,7 @@ const Topbar = () => {
   const pendingNotifications = notifications.length;
 
   // Function to handle drawer toggle
-  const toggleNotificationDrawer = (open) => (event) => {
+  const toggleNotificationDrawer = (open) => () => {
     setIsNotificationOpen(open);
   };
 

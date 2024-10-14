@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import PropTypes from 'prop-types'; 
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -39,6 +40,16 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
       <Link to={to} />
     </MenuItem>
   );
+};
+
+
+Item.propTypes = {
+  title: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+  icon: PropTypes.element.isRequired,
+  selected: PropTypes.string.isRequired,
+  setSelected: PropTypes.func.isRequired,
+  isCollapsed: PropTypes.bool.isRequired,
 };
 
 const Sidebar = () => {
@@ -251,8 +262,8 @@ const Sidebar = () => {
                     isCollapsed={isCollapsed}
                   />
                   <Item
-                    title="FAQ Page"
-                    to="/faq"
+                    title="Help Center"
+                    to="/help"
                     icon={<HelpOutlineOutlinedIcon />}
                     selected={selected}
                     setSelected={setSelected}
@@ -289,6 +300,14 @@ const Sidebar = () => {
               {openDropdown.charts && (
                 <>
                   <Item
+                    title="Line Chart"
+                    to="/line"
+                    icon={<TimelineOutlinedIcon />}
+                    selected={selected}
+                    setSelected={setSelected}
+                    isCollapsed={isCollapsed}
+                  />
+                  <Item
                     title="Bar Chart"
                     to="/bar"
                     icon={<BarChartOutlinedIcon />}
@@ -300,14 +319,6 @@ const Sidebar = () => {
                     title="Pie Chart"
                     to="/pie"
                     icon={<PieChartOutlineOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                    isCollapsed={isCollapsed}
-                  />
-                  <Item
-                    title="Line Chart"
-                    to="/line"
-                    icon={<TimelineOutlinedIcon />}
                     selected={selected}
                     setSelected={setSelected}
                     isCollapsed={isCollapsed}

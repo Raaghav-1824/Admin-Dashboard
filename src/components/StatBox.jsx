@@ -1,10 +1,11 @@
+import React from 'react';
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import ProgressCircle from "./ProgressCircle";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import TrendingDownOutlinedIcon from "@mui/icons-material/TrendingDownOutlined";
+import PropTypes from 'prop-types'; 
 
-const StatBox = ({ title, subtitle, icon, progress, increase }) => {
+const StatBox = ({ title, subtitle, icon, increase }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -32,21 +33,29 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
 
         <Box display="flex" alignItems="center">
           {isPositive ? (
-            <TrendingUpOutlinedIcon sx={{  fontSize: "24px" }} />
+            <TrendingUpOutlinedIcon sx={{ fontSize: "24px" }} />
           ) : (
             <TrendingDownOutlinedIcon sx={{ fontSize: "24px" }} />
           )}
           <Typography
             variant="h5"
             fontStyle="italic"
-            // sx={{ color: isPositive  ml: "4px" }}
           >
-           {increase}
+            {increase}
           </Typography>
         </Box>
       </Box>
     </Box>
   );
+};
+
+
+StatBox.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  icon: PropTypes.node.isRequired,
+  increase: PropTypes.string.isRequired,
+  progress: PropTypes.string, 
 };
 
 export default StatBox;

@@ -1,3 +1,4 @@
+import React from 'react';
 import { ResponsivePie } from "@nivo/pie";
 import {
   Box,
@@ -7,7 +8,6 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Paper,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ const PieChartWithTable = () => {
     { id: "E-mail", label: "E-mail", value: 5020, color: "#B6FFA1" },
   ];
 
-  const totalValue = data.reduce((acc, slice) => acc + slice.value, 0);
+  // const totalValue = data.reduce((acc, slice) => acc + slice.value, 0);
 
   const defaultLabel = "Weekly Sales";
   const defaultValue = "$86,400";

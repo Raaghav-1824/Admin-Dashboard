@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
@@ -63,36 +65,15 @@ const BarChart = ({ isDashboard = false }) => {
       enableGridY={true}
       barWidth={1}
       barOpacity={0.9}
-      legends={[
-        {
-          dataFrom: "keys",
-          anchor: "top-right",
-          direction: "row",
-          justify: false,
-          translateX: 0,
-          translateY: -40,
-          itemsSpacing: 10,
-          itemWidth: 100,
-          itemHeight: 20,
-          itemDirection: "left-to-right",
-          itemOpacity: 0.85,
-          symbolSize: 20,
-          effects: [
-            {
-              on: "hover",
-              style: {
-                itemOpacity: 1,
-              },
-            },
-          ],
-        },
-      ]}
+      legends={[/* ... */]}
       role="application"
-      barAriaLabel={function (e) {
-        return e.id + ": " + e.formattedValue + "M in " + e.indexValue;
-      }}
+      barAriaLabel={(e) => `${e.id}: ${e.formattedValue}M in ${e.indexValue}`}
     />
   );
+};
+
+BarChart.propTypes = {
+  isDashboard: PropTypes.bool,
 };
 
 export default BarChart;

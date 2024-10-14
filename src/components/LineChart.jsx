@@ -2,8 +2,10 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { mockLineData as data } from "../data/mockData";
+import React from 'react';
+import PropTypes from 'prop-types'; 
 
-const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+const LineChart = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -116,6 +118,11 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
       ]}
     />
   );
+};
+
+
+LineChart.propTypes = {
+  isDashboard: PropTypes.bool,
 };
 
 export default LineChart;

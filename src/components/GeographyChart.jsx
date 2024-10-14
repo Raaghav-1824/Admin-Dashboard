@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { ResponsiveChoropleth } from "@nivo/geo";
 import { geoFeatures } from "../data/mockGeoFeatures"; 
@@ -9,7 +10,6 @@ import { useTheme } from "@mui/material";
 const GeographyChartWithTable = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const mainBgColor = "#f5f7fa";
 
   const renderCountryIcon = (shorthand) => {
@@ -24,9 +24,7 @@ const GeographyChartWithTable = ({ isDashboard = false }) => {
         bgcolor={colors.primary.main}
         fontWeight="bold"
         fontSize="14px"
-        sx={{
-          border: "2px solid #fff",
-        }}
+        sx={{ border: "2px solid #fff" }}
       >
         {shorthand}
       </Box>
@@ -54,31 +52,11 @@ const GeographyChartWithTable = ({ isDashboard = false }) => {
             data={mapData}
             theme={{
               axis: {
-                domain: {
-                  line: {
-                    stroke: colors.grey[100],
-                  },
-                },
-                legend: {
-                  text: {
-                    fill: colors.grey[100],
-                  },
-                },
-                ticks: {
-                  line: {
-                    stroke: colors.grey[100],
-                    strokeWidth: 1,
-                  },
-                  text: {
-                    fill: colors.grey[100],
-                  },
-                },
+                domain: { line: { stroke: colors.grey[100] }},
+                legend: { text: { fill: colors.grey[100] }},
+                ticks: { line: { stroke: colors.grey[100], strokeWidth: 1 }, text: { fill: colors.grey[100] }},
               },
-              legends: {
-                text: {
-                  fill: colors.grey[100],
-                },
-              },
+              legends: { text: { fill: colors.grey[100] }},
             }}
             features={geoFeatures.features}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -92,81 +70,30 @@ const GeographyChartWithTable = ({ isDashboard = false }) => {
             borderWidth={1.3}
             borderColor="#ffffff"
             fill={[
-              {
-                match: {
-                  id: "USA",
-                },
-                id: "USA",
-                color: "#FF4081",
-              },
-              {
-                match: {
-                  id: "RUS",
-                },
-                id: "Russia",
-                color: "#000000",
-              },
-              {
-                match: {
-                  id: "BRA",
-                },
-                id: "Brazil",
-                color: "#FF4081",
-              },
-              {
-                match: {
-                  id: "CHN",
-                },
-                id: "China",
-                color: "#FF4081",
-              },
+              { match: { id: "USA" }, color: "#FF4081" },
+              { match: { id: "RUS" }, color: "#000000" },
+              { match: { id: "BRA" }, color: "#FF4081" },
+              { match: { id: "CHN" }, color: "#FF4081" },
             ]}
           />
         </Box>
       </Box>
 
-      <Box sx={{ marginTop: 3, marginBottom: 0.5 }} padding="10px" width="90%" height="250px" justifyContent="center" alignContent="center">
-        <TableContainer
-          elevation={0}
-          sx={{
-            boxShadow: "none",
-            bgcolor: mainBgColor,
-            maxHeight: "400px",
-            overflowY: "auto",
-          }}
-        >
+      <Box sx={{ marginTop: 3, marginBottom: 0.5 }} padding="10px" width="90%" height="250px">
+        <TableContainer elevation={0} sx={{ boxShadow: "none", bgcolor: mainBgColor, maxHeight: "400px", overflowY: "auto" }}>
           <Table sx={{ borderCollapse: "collapse" }}>
             <TableBody>
               {tableData.map((location) => (
                 <TableRow key={location.city} hover>
-                  <TableCell
-                    sx={{
-                      padding: "8px 8px",
-                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                    }}
-                  >
+                  <TableCell sx={{ padding: "8px 8px", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                     <Box display="flex" alignItems="center">
                       {renderCountryIcon(location.shorthand)}{" "}
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontWeight: 500,
-                          marginLeft: "10px",
-                          fontSize: "14px",
-                        }}
-                      >
+                      <Typography variant="body1" sx={{ fontWeight: 500, marginLeft: "10px", fontSize: "14px" }}>
                         {location.city}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{
-                      padding: "8px 5px",
-                      fontWeight: "500",
-                      borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                    }}
-                  >
+                  <TableCell align="right" sx={{ padding: "8px 5px", fontWeight: "500", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                     <Typography textAlign="center" variant="body1" sx={{ fontWeight: "bold", fontSize: "14px" }}>
                       {`${location.revenue}K`}
                     </Typography>
@@ -179,6 +106,10 @@ const GeographyChartWithTable = ({ isDashboard = false }) => {
       </Box>
     </Box>
   );
+};
+
+GeographyChartWithTable.propTypes = {
+  isDashboard: PropTypes.bool,
 };
 
 export default GeographyChartWithTable;
