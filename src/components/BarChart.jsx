@@ -1,25 +1,40 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
-import { mockBarData } from "../data/mockData";
+import rawData from "../data/electric_vehicle_data.json"; 
 
 const BarChart = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const data = useMemo(() => {
+    const yearCounts = rawData.reduce((acc, item) => {
+      const year = item["Model Year"];
+      if (year) {
+        acc[year] = (acc[year] || 0) + 1;
+      }
+      return acc;
+    }, {});
+
+    return Object.keys(yearCounts).map(year => ({
+      year,
+      count: yearCounts[year],
+    }));
+  }, []);
+
   return (
     <ResponsiveBar
-      data={mockBarData}
-      keys={["actual", "projection"]}
-      indexBy="month"
+      data={data}
+      keys={["count"]}
+      indexBy="year"
       margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
       padding={0.3}
       layout="vertical"
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={["#B4D4FF", "#86B6F6"]}
+      colors={["#B4D4FF"]}
       borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
       theme={{
         axis: {
@@ -48,7 +63,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "Month",
+        legend: isDashboard ? undefined : "Model Year",
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -56,18 +71,17 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "Value (M)",
+        legend: isDashboard ? undefined : "Vehicle Count",
         legendPosition: "middle",
         legendOffset: -40,
-        format: (value) => `${value}M`,
       }}
       enableGridX={false}
       enableGridY={true}
       barWidth={1}
       barOpacity={0.9}
-      legends={[/* ... */]}
+      legends={[]}
       role="application"
-      barAriaLabel={(e) => `${e.id}: ${e.formattedValue}M in ${e.indexValue}`}
+      barAriaLabel={(e) => `${e.id}: ${e.formattedValue} vehicles in ${e.indexValue}`}
     />
   );
 };

@@ -1,5 +1,5 @@
-import React from 'react';
-import { ResponsivePie } from "@nivo/pie";
+import React, { useState } from 'react';
+import { ResponsivePie } from '@nivo/pie';
 import {
   Box,
   Typography,
@@ -8,134 +8,103 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-} from "@mui/material";
-import { useState } from "react";
+} from '@mui/material';
+import rawData from '../data/electric_vehicle_data.json'; 
 
-const PieChartWithTable = () => {
-  const [hoveredSlice, setHoveredSlice] = useState(null);
+const vibrantColors = [
+  '#FF3D00', // Vibrant red
+  '#FF9800', // Vibrant orange
+  '#FFEB3B', // Vibrant yellow
+  '#4CAF50', // Vibrant green
+  '#2196F3', // Vibrant blue
+];
 
-  // Data for the pie chart and table
-  const data = [
-    { id: "Direct", label: "Direct", value: 1215, color: "#A594F9" },
-    { id: "Affilliate", label: "Affilliate", value: 2490, color: "black" },
-    { id: "Sponsered", label: "Sponsered", value: 1275, color: "#5AB2FF" },
-    { id: "E-mail", label: "E-mail", value: 5020, color: "#B6FFA1" },
-  ];
+const aggregateData = (data) => {
+  const makeCount = {};
 
-  // const totalValue = data.reduce((acc, slice) => acc + slice.value, 0);
+  data.forEach(vehicle => {
+    const make = vehicle.Make;
+    makeCount[make] = (makeCount[make] || 0) + 1;
+  });
 
-  const defaultLabel = "Weekly Sales";
-  const defaultValue = "$86,400";
+  const sortedMakes = Object.entries(makeCount)
+    .map(([id, value]) => ({ id, value }))
+    .sort((a, b) => b.value - a.value);
+
+  return sortedMakes.slice(0, 5).map((item, index) => ({
+    ...item,
+    color: vibrantColors[index % vibrantColors.length], 
+  }));
+};
+
+const SalesChart = () => {
+  const [highlighted, setHighlighted] = useState(null); // Define both highlighted and setHighlighted
+  const salesData = aggregateData(rawData); 
+  console.log(highlighted);
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      gap={2}
-      padding={1}
-      bgcolor="#F7F9FB"
-      borderRadius={3}
-      boxShadow="0px 2px 10px rgba(0, 0, 0, 0.1)"
+      sx={{
+        width: '100%',
+        bgcolor: '#f7f9fb',
+        borderRadius: '16px',
+        padding: '24px',
+        boxShadow: 2,
+        textAlign: 'center',
+      }}
     >
-      {/* Column for the Title */}
-      <Box textAlign="left" width="100%" sx={{ marginTop: 1.5, marginLeft: 2 }}>
-        <Typography variant="h5" fontWeight="600" paddingleft={2}>
-          Total Sales
-        </Typography>
+      <Typography variant="h6" gutterBottom>
+        Top Electric Vehicle Makes
+      </Typography>
+      <Box sx={{ height: '280px', position: 'relative' }}>
+        <ResponsivePie
+          data={salesData}
+          margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+          colors={{ datum: 'data.color' }} 
+          innerRadius={0.6}
+          padAngle={1}
+          cornerRadius={3}
+          activeOuterRadiusOffset={10}
+          onMouseEnter={(data) => setHighlighted(data)}
+          onMouseLeave={() => setHighlighted(null)}
+          tooltip={({ datum: { id, value } }) => (
+            <Box
+              sx={{
+                padding: '4px 8px',
+                background: '#1c1c1ccc',
+                borderRadius: '8px',
+                color: '#fff',
+              }}
+            >
+              {`${id}: ${value}`}
+            </Box>
+          )}
+        />
       </Box>
-
-      {/* Row for Pie Chart and Table */}
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="center"
-        alignItems="center"
-        width="95%"
-      >
-        {/* Pie Chart */}
-        <Box
-          flexDirection="row"
-          position="relative"
-          width="250px"
-          height="230px"
-          padding={1}
-        >
-          <ResponsivePie
-            data={data}
-            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-            innerRadius={0.7}
-            padAngle={1.5}
-            cornerRadius={3}
-            colors={{ datum: "data.color" }}
-            enableArcLabels={false}
-            enableArcLinkLabels={false}
-            borderWidth={1}
-            borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
-            onMouseEnter={(slice) => setHoveredSlice(slice)}
-            onMouseLeave={() => setHoveredSlice(null)}
-            tooltip={() => null}
-          />
-          {/* Central Dynamic Label */}
-          <Box
-            position="absolute"
-            top="50%"
-            left="50%"
-            style={{
-              transform: "translate(-50%, -50%)",
-              textAlign: "center",
-            }}
-          >
-            <Typography variant="h5" fontWeight="bold">
-              {hoveredSlice
-                ? `$${hoveredSlice.value.toFixed(2)}`
-                : defaultValue}
-            </Typography>
-            <Typography variant="h6" color="#9E9E9E">
-              {hoveredSlice ? hoveredSlice.id : defaultLabel}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-      <TableContainer
-        elevation={0}
-        style={{ width: "85%", height: "100%", padding: "8px", margin: "20px" }}
-      >
+      <TableContainer>
         <Table>
           <TableBody>
-            {data.map((row) => (
-              <TableRow
-                key={row.id}
-                style={{
-                  backgroundColor:
-                    hoveredSlice && hoveredSlice.id === row.id
-                      ? "#E0F7FA"
-                      : "transparent",
-                }}
-              >
-                <TableCell>
-                  <Box display="flex" alignItems="center">
-                    <Box
-                      width={8}
-                      height={8}
-                      borderRadius="50%"
-                      style={{
-                        backgroundColor: row.color,
-                        marginRight: "10px",
-                      }}
-                    />
-                    <Typography variant="h6">{row.label}</Typography>
-                  </Box>
+            {salesData.map((data) => (
+              <TableRow key={data.id}>
+                <TableCell
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: '16px',
+                      height: '16px',
+                      bgcolor: data.color,
+                      borderRadius: '50%',
+                    }}
+                  />
+                  <Typography>{data.id}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography
-                    sx={{ fontWeight: "bold", fontSize: "14px" }}
-                    padding="1px"
-                    variant="body1"
-                  >
-                    ${row.value.toFixed(2)}
-                  </Typography>
+                  <Typography>{data.value}</Typography>
                 </TableCell>
               </TableRow>
             ))}
@@ -146,4 +115,4 @@ const PieChartWithTable = () => {
   );
 };
 
-export default PieChartWithTable;
+export default SalesChart;

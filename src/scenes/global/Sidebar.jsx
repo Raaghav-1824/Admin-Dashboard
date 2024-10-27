@@ -184,7 +184,7 @@ const Sidebar = () => {
                     isCollapsed={isCollapsed}
                   />
                   <Item
-                    title="eCommerce"
+                    title="Electric Vehicle"
                     to="/"
                     icon={<LocalMallOutlinedIcon />}
                     selected={selected}
@@ -200,7 +200,7 @@ const Sidebar = () => {
                     isCollapsed={isCollapsed}
                   />
                   <Item
-                    title="Online Courses"
+                    title="Online"
                     to="/"
                     icon={<ImportContactsOutlinedIcon />}
                     selected={selected}
@@ -238,7 +238,7 @@ const Sidebar = () => {
               {openDropdown.pages && (
                 <>
                   <Item
-                    title="User Profile"
+                    title="Customers"
                     to="/contacts"
                     icon={<PersonOutlinedIcon />}
                     selected={selected}

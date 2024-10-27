@@ -4,8 +4,16 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography 
 import { ResponsiveChoropleth } from "@nivo/geo";
 import { geoFeatures } from "../data/mockGeoFeatures"; 
 import { tokens } from "../theme";
-import { mockGeographyData as mapData, mockRevenueData as tableData } from "../data/mockData";
+import { mockGeographyData as mapData } from "../data/mockData"; 
 import { useTheme } from "@mui/material";
+
+export const tableData = [
+  { city: "California", shorthand: "CA", distribution: 150000 },
+  { city: "Texas", shorthand: "TX", distribution: 75000 },
+  { city: "Florida", shorthand: "FL", distribution: 60000 },
+  { city: "New York", shorthand: "NY", distribution: 90000 },
+  { city: "Illinois", shorthand: "IL", distribution: 50000 },
+];
 
 const GeographyChartWithTable = ({ isDashboard = false }) => {
   const theme = useTheme();
@@ -43,13 +51,13 @@ const GeographyChartWithTable = ({ isDashboard = false }) => {
       bgcolor={mainBgColor}
     >
       <Typography width="100%" variant="h5" fontWeight="600" sx={{ marginTop: 1.5, marginLeft: 2 }}>
-        Revenue by Location
+        Electric Vehicle Distribution 
       </Typography>
 
       <Box display="flex" flexDirection="row" width="100%" alignItems="center" justifyContent="center">
         <Box flex={1} width="100%" height="200px" borderRadius="12px" overflow="hidden" alignItems="center">
           <ResponsiveChoropleth
-            data={mapData}
+            data={mapData} // Adjust this to match vehicle distribution data structure
             theme={{
               axis: {
                 domain: { line: { stroke: colors.grey[100] }},
@@ -60,7 +68,7 @@ const GeographyChartWithTable = ({ isDashboard = false }) => {
             }}
             features={geoFeatures.features}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-            domain={[0, 1000000]}
+            domain={[0, 100000]}
             unknownColor="#f0f0f0"
             label="properties.name"
             valueFormat=".2s"
@@ -95,7 +103,7 @@ const GeographyChartWithTable = ({ isDashboard = false }) => {
                   </TableCell>
                   <TableCell align="right" sx={{ padding: "8px 5px", fontWeight: "500", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>
                     <Typography textAlign="center" variant="body1" sx={{ fontWeight: "bold", fontSize: "14px" }}>
-                      {`${location.revenue}K`}
+                      {`${location.distribution} EVs`} 
                     </Typography>
                   </TableCell>
                 </TableRow>
