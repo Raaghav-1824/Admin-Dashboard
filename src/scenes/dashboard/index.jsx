@@ -1,22 +1,25 @@
-import React from "react";
+import React from 'react';
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
+import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import rawData from "../../data/electric_vehicle_data.json";
+
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
+
 import LineChart from "../../components/LineChart";
 import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
+
 import PieChart from "../../components/ProgressCircle";
+
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const tableData = rawData.slice(0, 4);
 
   return (
     <Box margin="12px 20px " paddingBottom={2}>
@@ -28,7 +31,7 @@ const Dashboard = () => {
           fontWeight="600"
           sx={{ padding: "10px 20px 10px 10px" }}
         >
-          EV DASHBOARD
+          eCommerce
         </Typography>
       </Box>
 
@@ -130,7 +133,7 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ padding: "30px 30px 0 30px" }}
           >
-            Vehicle Count vs Model Year
+            Projections vs Actuals
           </Typography>
           <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
@@ -157,7 +160,11 @@ const Dashboard = () => {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Model vs Electric Range
+                Total Revenue
+              </Typography>
+
+              <Typography variant="h4" fontWeight="bold" color="black">
+                $59,342.32
               </Typography>
             </Box>
             <Box>
@@ -217,7 +224,7 @@ const Dashboard = () => {
               color={colors.grey[700]}
               style={{ flex: 1 }}
             >
-              Vehicle
+              Name
             </Typography>
             <Typography
               variant="subtitle1"
@@ -225,7 +232,7 @@ const Dashboard = () => {
               color={colors.grey[700]}
               style={{ flex: 1, textAlign: "center" }}
             >
-              City / Country
+              Price
             </Typography>
             <Typography
               variant="subtitle1"
@@ -233,7 +240,7 @@ const Dashboard = () => {
               color={colors.grey[700]}
               style={{ flex: 1, textAlign: "center" }}
             >
-              Range
+              Quantity
             </Typography>
             <Typography
               variant="subtitle1"
@@ -241,20 +248,19 @@ const Dashboard = () => {
               color={colors.grey[700]}
               style={{ flex: 1, textAlign: "right" }}
             >
-              (CAFV) Eligibility
+              Amount
             </Typography>
           </Box>
 
           {/* Data rows */}
           <Box height="200px" overflow="auto">
-            {tableData.map((vehicle, i) => (
+            {mockTransactions.map((transaction, i) => (
               <Box
-                key={`${vehicle["VIN (1-10)"]}-${i}`}
+                key={`${transaction.txId}-${i}`}
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
                 p="10px 15px"
-                bgcolor={i % 2 === 0 ? "#f7f7f7" : "#ffffff"} 
               >
                 <Typography
                   color="black"
@@ -262,7 +268,7 @@ const Dashboard = () => {
                   fontWeight="500"
                   style={{ flex: 1 }}
                 >
-                  {vehicle.Make} {vehicle.Model} ({vehicle["Model Year"]})
+                  {transaction.Name}
                 </Typography>
                 <Typography
                   color="black"
@@ -270,7 +276,7 @@ const Dashboard = () => {
                   fontWeight="500"
                   style={{ flex: 1, textAlign: "center" }}
                 >
-                  {vehicle.City}, {vehicle.County}
+                  {transaction.Price}
                 </Typography>
                 <Typography
                   color="black"
@@ -278,7 +284,7 @@ const Dashboard = () => {
                   fontWeight="500"
                   style={{ flex: 1, textAlign: "center" }}
                 >
-                  {vehicle["Electric Range"]} miles
+                  {transaction.Quantity}
                 </Typography>
                 <Typography
                   color="black"
@@ -286,7 +292,7 @@ const Dashboard = () => {
                   fontWeight="500"
                   style={{ flex: 1, textAlign: "right" }}
                 >
-                  {vehicle["Clean Alternative Fuel Vehicle (CAFV) Eligibility"]}
+                  ${transaction.Amount}
                 </Typography>
               </Box>
             ))}

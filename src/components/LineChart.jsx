@@ -1,64 +1,53 @@
-import React, { useMemo } from 'react';
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import rawData from "../data/electric_vehicle_data.json";
+import { mockLineData as data } from "../data/mockData";
+import React from 'react';
 import PropTypes from 'prop-types'; 
 
 const LineChart = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const data = useMemo(() => {
-    
-    const modelRangeData = rawData.reduce((acc, item) => {
-      const model = item["Model"];
-      if (!acc[model]) {
-        acc[model] = { totalRange: 0, count: 0 };
-      }
-      acc[model].totalRange += item["Electric Range"];
-      acc[model].count += 1;
-      return acc;
-    }, {});
-
-
-    const sortedData = Object.keys(modelRangeData)
-      .map((model) => ({
-        model,
-        avgRange: modelRangeData[model].totalRange / modelRangeData[model].count,
-      }))
-      .sort((a, b) => b.avgRange - a.avgRange)
-      .slice(0, 20); 
-
-    
-    return [
-      {
-        id: "Average Electric Range by Model",
-        color: "hsl(205, 70%, 50%)",
-        data: sortedData.map(({ model, avgRange }) => ({
-          x: model,
-          y: avgRange,
-        })),
-      },
-    ];
-  }, []);
-
-  const formatYValue = (value) => `${value} miles`;
+  const formatYValue = (value) => {
+    return `${value} M`;
+  };
 
   return (
     <ResponsiveLine
       data={data}
       theme={{
         axis: {
-          domain: { line: { stroke: colors.grey[100] } },
-          legend: { text: { fill: colors.grey[100] } },
+          domain: {
+            line: {
+              stroke: colors.grey[100],
+            },
+          },
+          legend: {
+            text: {
+              fill: colors.grey[100],
+            },
+          },
           ticks: {
-            line: { stroke: colors.grey[100], strokeWidth: 1 },
-            text: { fill: colors.grey[100] },
+            line: {
+              stroke: colors.grey[100],
+              strokeWidth: 1,
+            },
+            text: {
+              fill: colors.grey[100],
+            },
           },
         },
-        legends: { text: { fill: colors.grey[100] } },
-        tooltip: { container: { color: colors.primary[500] } },
+        legends: {
+          text: {
+            fill: colors.grey[100],
+          },
+        },
+        tooltip: {
+          container: {
+            color: colors.primary[500],
+          },
+        },
       }}
       colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }}
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
@@ -66,7 +55,8 @@ const LineChart = ({ isDashboard = false }) => {
       yScale={{
         type: "linear",
         min: 0,
-        stacked: false,
+        max: 400,
+        stacked: true,
         reverse: false,
       }}
       yFormat={formatYValue}
@@ -75,24 +65,25 @@ const LineChart = ({ isDashboard = false }) => {
       axisRight={null}
       axisBottom={{
         orient: "bottom",
-        tickSize: 5,
+        tickSize: 0,
         tickPadding: 5,
-        tickRotation: -45,
-        legend: isDashboard ? undefined : "Model",
+        tickRotation: 0,
+        legend: isDashboard ? undefined : "transportation",
         legendOffset: 36,
         legendPosition: "middle",
       }}
       axisLeft={{
         orient: "left",
-        tickSize: 5,
+        tickValues: [0, 100, 200, 300, 400],
+        tickSize: 3,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "Average Electric Range (miles)",
+        legend: isDashboard ? undefined : "count",
         legendOffset: -40,
         legendPosition: "middle",
       }}
       enableGridX={false}
-      enableGridY={true}
+      enableGridY={false}
       pointSize={8}
       pointColor={{ theme: "background" }}
       pointBorderWidth={2}
@@ -106,7 +97,7 @@ const LineChart = ({ isDashboard = false }) => {
           justify: false,
           translateX: 100,
           translateY: 0,
-          itemsSpacing: 0,
+          itemsSpacing: 1,
           itemDirection: "left-to-right",
           itemWidth: 80,
           itemHeight: 20,
@@ -128,6 +119,7 @@ const LineChart = ({ isDashboard = false }) => {
     />
   );
 };
+
 
 LineChart.propTypes = {
   isDashboard: PropTypes.bool,

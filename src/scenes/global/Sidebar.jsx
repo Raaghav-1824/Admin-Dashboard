@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types'; 
+import PropTypes from "prop-types";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -19,9 +19,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import ImportContactsOutlinedIcon from "@mui/icons-material/ImportContactsOutlined";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
-import AddchartOutlinedIcon from '@mui/icons-material/AddchartOutlined';
-import PagesOutlinedIcon from '@mui/icons-material/PagesOutlined';
-import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined';
+import AddchartOutlinedIcon from "@mui/icons-material/AddchartOutlined";
+import PagesOutlinedIcon from "@mui/icons-material/PagesOutlined";
+import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomizeOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
   const theme = useTheme();
@@ -42,7 +42,6 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
   );
 };
 
-
 Item.propTypes = {
   title: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
@@ -58,9 +57,9 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const [openDropdown, setOpenDropdown] = useState({
-    dashboard: false,
-    pages: false,
-    charts: false,
+    dashboard: true,
+    pages: true,
+    charts: true,
   });
 
   const toggleDropdown = (section) => {
@@ -91,7 +90,7 @@ const Sidebar = () => {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
-          padding: isCollapsed ? "5px 15px" : "5px 35px 5px 20px !important",
+          padding: isCollapsed ? "5px 15px" : "5px 10px 5px 20px !important",
         },
         "& .pro-inner-item:hover": {
           color: "#868dfb !important",
@@ -99,9 +98,14 @@ const Sidebar = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
+        
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <ProSidebar
+        collapsed={isCollapsed}
+        collapsedWidth="100px"
+        width= "220px"
+      >
         <Menu iconShape="square">
           <MenuItem
             onClick={handleCollapseToggle}
@@ -115,8 +119,8 @@ const Sidebar = () => {
               <Box
                 display="flex"
                 alignItems="center"
-                justifyContent="center"
-                ml="15px"
+                justifyContent="left"
+                // ml="15px"
               >
                 <IconButton onClick={handleCollapseToggle}>
                   <MenuOutlinedIcon />
@@ -131,7 +135,7 @@ const Sidebar = () => {
                     alt="profile-user"
                     width="25px"
                     height="25px"
-                    src={`../../assets/user.png`}
+                    src={`../../assets/user.jpg`}
                     style={{ cursor: "pointer", borderRadius: "50%" }}
                   />
                 </Box>
@@ -141,7 +145,7 @@ const Sidebar = () => {
                     color={colors.grey[100]}
                     fontWeight="bold"
                   >
-                    byeWind
+                    Raghav
                   </Typography>
                 </Box>
               </Box>
@@ -162,12 +166,18 @@ const Sidebar = () => {
                   alignItems: "center",
                 }}
               >
-                {isCollapsed ? <DashboardCustomizeOutlinedIcon /> : "Dashboards"}
+                {isCollapsed ? (
+                  <DashboardCustomizeOutlinedIcon />
+                ) : (
+                  "Dashboards"
+                )}
                 <ArrowForwardIosIcon
                   style={{
                     fontSize: "0.75rem",
                     marginLeft: "5px",
-                    transform: openDropdown.dashboard ? "rotate(90deg)" : "rotate(0deg)",
+                    transform: openDropdown.dashboard
+                      ? "rotate(90deg)"
+                      : "rotate(0deg)",
                     transition: "transform 0.3s",
                   }}
                 />
@@ -184,7 +194,7 @@ const Sidebar = () => {
                     isCollapsed={isCollapsed}
                   />
                   <Item
-                    title="Electric Vehicle"
+                    title="eCommerce"
                     to="/"
                     icon={<LocalMallOutlinedIcon />}
                     selected={selected}
@@ -200,7 +210,7 @@ const Sidebar = () => {
                     isCollapsed={isCollapsed}
                   />
                   <Item
-                    title="Online"
+                    title="Online Courses"
                     to="/"
                     icon={<ImportContactsOutlinedIcon />}
                     selected={selected}
@@ -229,7 +239,9 @@ const Sidebar = () => {
                   style={{
                     fontSize: "0.75rem",
                     marginLeft: "5px",
-                    transform: openDropdown.pages ? "rotate(90deg)" : "rotate(0deg)",
+                    transform: openDropdown.pages
+                      ? "rotate(90deg)"
+                      : "rotate(0deg)",
                     transition: "transform 0.3s",
                   }}
                 />
@@ -238,7 +250,7 @@ const Sidebar = () => {
               {openDropdown.pages && (
                 <>
                   <Item
-                    title="Customers"
+                    title="User Profile"
                     to="/contacts"
                     icon={<PersonOutlinedIcon />}
                     selected={selected}
@@ -291,7 +303,9 @@ const Sidebar = () => {
                   style={{
                     fontSize: "0.75rem",
                     marginLeft: "5px",
-                    transform: openDropdown.charts ? "rotate(90deg)" : "rotate(0deg)",
+                    transform: openDropdown.charts
+                      ? "rotate(90deg)"
+                      : "rotate(0deg)",
                     transition: "transform 0.3s",
                   }}
                 />

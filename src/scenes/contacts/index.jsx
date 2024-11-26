@@ -126,7 +126,7 @@ const Contacts = () => {
           rows={mockDataOrders}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
-          getRowId={(row) => row.registrarId} 
+          getRowId={(row) => row.registrarId} // Use registrarId as the unique identifier
           autoHeight
           pageSize={10}
           rowsPerPageOptions={[5, 10, 20]}
